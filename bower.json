@@ -1,0 +1,22 @@
+{
+  "name": "symanto-angular-httpservice",
+  "version": "0.0.1",
+  "homepage": "https://github.com/Symanto/Angular-HttpService",
+  "authors": [
+    "Robin-Manuel Thiel <robin-manuel.thiel@symanto.net>"
+  ],
+  "main": "HttpService.js",
+  "keywords": [
+    "angular",
+	"http"
+	"symanto"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
