@@ -8,8 +8,8 @@
   "main": "HttpService.js",
   "keywords": [
     "angular",
-	"http"
-	"symanto"
+    "http",
+    "symanto"
   ],
   "license": "MIT",
   "ignore": [
