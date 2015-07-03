@@ -1,3 +1,5 @@
+angular.module("Symanto.Http", ["ui.router"]);
+
 var http = angular.module("Symanto.Http");
 
 http.value('httpServiceOptions', {
