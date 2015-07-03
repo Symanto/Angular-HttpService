@@ -1,48 +1,74 @@
-var root = angular.module("Symanto.Http");
-root.service("HttpService", function ($http, $q, LoadingIndicatorService, MessageService) {
+var http = angular.module("Symanto.Http");
 
-    var runningRequests = 0;
+http.value('httpServiceOptions', {
+    loadingIndicatorService: undefined,
+    messageService: undefined
+});
 
-    // Count the number of running sources
-    // Start the loading indicator only at the first one
+http.service("HttpService", function ($http, $q, httpServiceOptions) {
+
+    var cache = [];
+
     var started = function() {
-        if (runningRequests == 0)
-            LoadingIndicatorService.showLoadingIndicator();
-
-        runningRequests++;
+        if (httpServiceOptions.loadingIndicatorService != undefined) {
+            httpServiceOptions.loadingIndicatorService.startOperation();
+        }
     };
 
-    // When a source is finished, it should be removed from the running sources
-    // Hide the loading indicator, if it was the last one.
     var finished = function() {
-        runningRequests--;
-
-        if (runningRequests == 0)
-            LoadingIndicatorService.hideLoadingIndicator();
+        if (httpServiceOptions.loadingIndicatorService != undefined) {
+            httpServiceOptions.loadingIndicatorService.finishOperation();
+        }
     };
 
     var showErrorMessage = function (errorMessage) {
         console.log("An HTTP error occurred: '" + errorMessage + "'");
-        //MessageService.error("<strong>" + errorMessage + "</strong><br><small style='padding-left: 18px'>Please try again or ask your system administrator for help.</small>");
+        if (httpServiceOptions.messageService != undefined) {
+            httpServiceOptions.messageService.error("<strong>" + errorMessage + "</strong><br><small style='padding-left: 18px'>Please try again or ask your system administrator for help.</small>");
+        }
     };
 
     // GET
-    var get = function(path, error, errorMessage) {
+    var get = function(path, error, errorMessage, shouldCache) {
 
         started();
         var deferred = $q.defer();
+        var cacheExists = false;
 
-        $http.get(path).then(
-            function(success) {
-                deferred.resolve(success.data);
-                finished();
-            },
-            function (error) {
-                showErrorMessage(errorMessage);
-                deferred.reject({ error: -1 });
-                finished();
+        // Check if cache exists
+        if (shouldCache) {
+            for (var i = 0; i < cache.length; i++) {
+                if (cache[i].path == path) {
+                    // Cache found
+                    deferred.resolve(cache[i].result.data);
+                    cacheExists = true;
+                }
             }
-        );
+        }
+
+        if (!cacheExists) {
+            // Cache does not exit.
+            $http.get(path).then(
+                function (success) {
+
+                    // Cache it
+                    if (shouldCache) {
+                        cache.push({
+                            path: path,
+                            result: success
+                        });
+                    }
+
+                    deferred.resolve(success.data);
+                    finished();
+                },
+                function (error) {
+                    showErrorMessage(errorMessage);
+                    deferred.reject({error: -1});
+                    finished();
+                }
+            );
+        }
 
         return deferred.promise;
     };
