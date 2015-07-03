@@ -21,5 +21,5 @@ angular.module("Application.Root", [
 });
 ```
 
-  [1]: http://www.google.de
+  [1]: https://github.com/Symanto/Angular-LoadingIndicatorService
   [2]: http://www.google.de
