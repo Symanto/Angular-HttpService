@@ -1,6 +1,10 @@
 # Angular-HttpService
 ## Installation
-To be added...
+###Bower
+The easiest way to install the HttpService is by including the bower package to your solution
+```
+bower install symanto-angular-httpservice --save
+```
 
 ## Configuration
 The HttpService comes fully configured and runnable out of the box. Beside that it beautifully integrates with other Symanto modules like the [Angular LoadingIndicatorService][1] and the [Angular MessageService][2]
