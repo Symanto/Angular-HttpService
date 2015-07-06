@@ -2,7 +2,7 @@
 ## Installation
 ###Bower
 The easiest way to install the HttpService is by including the bower package to your solution
-```
+```shell
 bower install symanto-angular-httpservice --save
 ```
 
