@@ -13,7 +13,7 @@ To add these services load them into your project and inject them into your root
 ```javascript
 angular.module("Application.Root", [
     "Symanto.HttpService",
-    "Symanto.LoadingIndicatorService",
+    "Symanto.LoadingIndicator",
     "Symanto.MessageService"
 ]).run(function(httpServiceOptions, LoadingIndicatorService, MessageService) {
 
