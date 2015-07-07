@@ -43,6 +43,7 @@ http.service("HttpService", function ($http, $q, httpServiceOptions) {
                 if (cache[i].path == path) {
                     // Cache found
                     deferred.resolve(cache[i].result.data);
+                    finished();
                     cacheExists = true;
                 }
             }
